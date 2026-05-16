@@ -1,0 +1,583 @@
+.certificates {
+  height: calc(100vh - 75px);
+  scroll-margin-top: 75px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  padding: 2rem;
+}
+
+/* Center spotlight background */
+.certificates::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 50% 65% at 50% 50%,
+    rgba(59, 130, 246, 0.05c) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Heading ── */
+
+.cert-heading {
+  font-size: clamp(2rem, 4vw, 3rem);
+  color: var(--text-primary);
+  text-align: center;
+  flex-shrink: 0;
+  margin: 0;
+  text-shadow:
+    0 0 8px rgba(59, 130, 246, 0.4),
+    0 0 16px rgba(59, 130, 246, 0.2),
+    0 4px 12px rgba(0, 0, 0, 1),
+    0 8px 20px rgba(0, 0, 0, 0.9),
+    -4px -4px 12px rgba(0, 0, 0, 0.9),
+    4px 4px 12px rgba(0, 0, 0, 0.9);
+}
+
+/* ── Showcase row (arrows + grid) ── */
+
+.cert-showcase {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  height: clamp(300px, calc(100vh - 280px), 520px);
+}
+
+/* ── Arrow buttons ── */
+
+.cert-nav-btn {
+  flex-shrink: 0;
+  width: 50px;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1.5px solid var(--border-bright);
+  border-radius: 0.6rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    border-color 0.2s,
+    color 0.2s,
+    background 0.2s,
+    box-shadow 0.2s;
+  box-shadow: 0 0 12px rgba(59, 130, 246, 0);
+}
+
+.cert-nav-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(59, 130, 246, 0.15);
+  box-shadow: 0 0 16px rgba(59, 130, 246, 0.25);
+}
+
+/* ── Main grid ── */
+
+.cert-main-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 5fr 3.9fr;
+  gap: 1rem;
+
+  transition: opacity 0.18s ease;
+  height: 100%;
+  align-items: stretch;
+}
+
+.cert-main-grid.transitioning {
+  opacity: 0;
+}
+
+/* ── Thumbnail — col 1 ── */
+
+.cert-thumbnail-panel {
+  grid-column: 1;
+  border-radius: 0.75rem;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-card-hover) 100%);
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.cert-thumbnail-panel:hover {
+  border-color: var(--border-bright);
+  box-shadow: 0 0 16px rgba(59, 130, 246, 0.08);
+}
+
+/* ── Info side — col 2, 2-column grid ── */
+
+.cert-info-side {
+  grid-column: 2;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto 1fr auto;
+  gap: 0.75rem;
+  min-height: 0;
+}
+
+/* ── Issuer + Date row ── */
+
+.cert-meta-row {
+  display: contents;
+}
+
+.cert-thumbnail-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cert-thumbnail-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.cert-thumbnail-glow {
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  border-radius: 50%;
+  opacity: 0.12;
+  filter: blur(48px);
+  background: var(--accent);
+}
+
+.cert-thumbnail-label {
+  position: relative;
+  font-size: clamp(1rem, 1.5vw, 1.5rem);
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+  text-align: center;
+  padding: 0 1rem;
+}
+
+/* ── Shared panel style ── */
+
+.cert-panel {
+  background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-card-hover) 100%);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  padding: 1.1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  min-height: 70px;
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.cert-panel:hover {
+  border-color: var(--border-bright);
+  box-shadow: 0 0 16px rgba(59, 130, 246, 0.08);
+}
+
+.cert-panel-label {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.cert-panel-value {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+/* ── Name panel ── */
+
+.cert-name-panel {
+  grid-column: 1;
+  grid-row: 1;
+  justify-content: center;
+}
+
+.cert-name-value {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1.3;
+}
+
+/* ── Issuer / Date ── */
+
+.cert-issuer-panel {
+  grid-column: 2;
+  grid-row: 1;
+  justify-content: center;
+}
+
+.cert-date-panel {
+  grid-column: 1;
+  grid-row: 2;
+  justify-content: center;
+}
+
+/* ── Description ── */
+
+.cert-description-panel {
+  grid-column: 1 / -1;
+  grid-row: 3;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+.cert-description-panel::-webkit-scrollbar {
+  width: 4px;
+}
+.cert-description-panel::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 2px;
+}
+
+.cert-description-text {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.85;
+  margin: 0;
+}
+
+/* ── Verify ── */
+
+.cert-verify-panel {
+  grid-column: 2;
+  grid-row: 2;
+  justify-content: center;
+  align-items: start;
+}
+
+.cert-verify-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: none;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s, opacity 0.2s;
+}
+
+.cert-verify-link:hover {
+  opacity: 0.8;
+}
+
+.cert-verify-icon {
+  font-size: 0.75rem;
+}
+
+/* ── Bottom strip — infinite carousel ── */
+
+.cert-strip {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.cert-strip-nav-left,
+.cert-strip-nav-right {
+  flex-shrink: 0;
+}
+
+.cert-strip-carousel {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  height: 150px;
+  width: 100%;
+  max-width: 450px;
+  overflow: hidden;
+}
+
+.cert-strip-carousel-item {
+  position: absolute;
+
+  width: 150px;
+  height: 100px;
+  padding: 0;
+  background: none;
+  border: 2px solid var(--border);
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transform-origin: center center;
+}
+
+.cert-strip-carousel-item.active {
+  z-index: 10;
+}
+
+.cert-strip-carousel-thumb {
+  width: 100%;
+  height: 100%;
+  border-radius: 0.5rem;
+  background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-card-hover) 100%);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cert-strip-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  transition: filter 0.2s ease;
+}
+
+.cert-strip-carousel-item:hover .cert-strip-img {
+  filter: blur(3px);
+}
+
+.cert-strip-hover-label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(8, 8, 8, 0.72);
+  backdrop-filter: blur(4px);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-align: center;
+  padding: 0.5rem;
+  line-height: 1.3;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.cert-strip-carousel-item:hover .cert-strip-hover-label {
+  opacity: 1;
+}
+
+.cert-strip-glow {
+  position: absolute;
+  inset: 0;
+  opacity: 0.12;
+  filter: blur(10px);
+  background: var(--accent);
+}
+
+.cert-strip-label {
+  position: relative;
+  font-size: 0.62rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-align: center;
+  padding: 0 0.4rem;
+  line-height: 1.3;
+}
+
+/* ── Responsive ── */
+
+@media (max-height: 500px) {
+  .certificates {
+    height: auto;
+    min-height: auto;
+    padding: 0.5rem;
+    gap: 0.75rem;
+    justify-content: flex-start;
+    overflow: hidden;
+  }
+
+  .cert-heading {
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    margin: 0;
+  }
+
+  .cert-showcase {
+    height: auto;
+    flex-direction: row;
+    gap: 0.5rem;
+  }
+
+  .cert-main-grid {
+    gap: 0.6rem;
+    max-height: 100%;
+  }
+
+  .cert-info-side {
+    gap: 0.5rem;
+    height: 100%;
+    min-height: 0;
+  }
+
+  .cert-panel {
+    padding: 0.7rem 0.9rem;
+    gap: 0.25rem;
+  }
+
+  .cert-panel-label {
+    font-size: 0.6rem;
+  }
+
+  .cert-panel-value {
+    font-size: 0.85rem;
+  }
+
+  .cert-description-panel {
+    flex: 1;
+    min-height: 0;
+    max-height: none;
+  }
+
+  .cert-strip {
+    gap: 0.3rem;
+    padding: 0;
+  }
+
+  .cert-nav-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 0.8rem;
+  }
+
+  .cert-strip-carousel {
+    height: 50px;
+    max-width: 300px;
+  }
+
+  .cert-strip-carousel-item {
+    width: 80px;
+    height: 60px;
+    margin-top: -30px;
+    border: 1.5px solid var(--border);
+  }
+
+  .cert-strip-hover-label {
+    font-size: 0.55rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .certificates {
+    height: auto;
+    min-height: auto;
+    padding: 1.5rem 1rem;
+    overflow-y: auto;
+  }
+
+  .cert-heading {
+    margin-bottom: 1rem;
+  }
+
+  .cert-showcase {
+    flex-direction: column;
+    padding: 0;
+    gap: 0.75rem;
+    height: auto;
+    max-height: none;
+  }
+
+  .cert-main-grid {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto !important;
+    margin: 0;
+    gap: 0.75rem;
+    height: auto !important;
+    max-height: none !important;
+  }
+
+  .cert-thumbnail-panel {
+    height: 200px;
+    width: 100% !important;
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+  }
+
+  .cert-info-side {
+    grid-column: 1 !important;
+    grid-row: 2 !important;
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto auto auto auto auto !important;
+  }
+
+  .cert-name-panel {
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+  }
+
+  .cert-issuer-panel {
+    grid-column: 1 !important;
+    grid-row: 2 !important;
+  }
+
+  .cert-date-panel {
+    grid-column: 1 !important;
+    grid-row: 3 !important;
+  }
+
+  .cert-description-panel {
+    grid-column: 1 !important;
+    grid-row: 4 !important;
+    max-height: 180px;
+  }
+
+  .cert-verify-panel {
+    grid-column: 1 !important;
+    grid-row: 5 !important;
+  }
+
+  .cert-strip {
+    flex-wrap: nowrap;
+    padding: 0;
+    margin-top: 0.75rem;
+    gap: 0.5rem;
+  }
+
+  .cert-strip-carousel {
+    height: 60px;
+    max-width: 340px;
+  }
+
+  .cert-strip-carousel-item {
+    width: 120px;
+    height: 60px;
+    margin-top: -35px;
+    border: 1.5px solid var(--border);
+  }
+
+  .cert-strip-carousel-thumb {
+    border-radius: 0.4rem;
+  }
+}

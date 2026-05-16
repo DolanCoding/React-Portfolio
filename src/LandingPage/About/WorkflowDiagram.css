@@ -1,0 +1,59 @@
+.workflow-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.wf-node rect,
+.wf-node polygon {
+  fill: var(--bg-deep);
+  stroke: var(--border-bright);
+  stroke-width: 1;
+}
+
+.wf-decision polygon {
+  fill: rgba(59, 130, 246, 0.08);
+  stroke: var(--accent);
+}
+
+.wf-node text {
+  fill: var(--text-secondary);
+  font-size: 13px;
+  font-family: var(--font-sans);
+  text-anchor: middle;
+  dominant-baseline: middle;
+  pointer-events: none;
+}
+
+.wf-decision text {
+  fill: var(--accent);
+  font-size: 12px;
+}
+
+.wf-edge {
+  fill: none;
+  stroke: var(--border-bright);
+  stroke-width: 1;
+}
+
+.wf-loop {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1;
+  stroke-dasharray: 4 3;
+  opacity: 0.7;
+}
+
+.wf-arrow-head {
+  fill: var(--border-bright);
+}
+
+.wf-arrow-head.loop {
+  fill: var(--accent);
+}
+
+.wf-label {
+  fill: var(--text-muted);
+  font-size: 11px;
+  font-family: var(--font-sans);
+}

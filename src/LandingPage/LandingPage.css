@@ -1,0 +1,52 @@
+.landing-page {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-deepest);
+  position: relative;
+}
+
+.overlay-left {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 25%;
+  height: 100vh;
+  background: linear-gradient(
+    to right,
+    rgba(8, 8, 8, 1) 0%,
+    rgba(8, 8, 8, 0.8) 25%,
+    rgba(8, 8, 8, 0.5) 50%,
+    rgba(8, 8, 8, 0.2) 75%,
+    rgba(8, 8, 8, 0) 100%
+  );
+  pointer-events: none;
+  z-index: 999;
+  filter: blur(0.5px);
+}
+
+@media (max-width: 1280px) {
+  .overlay-left,
+  .overlay-right {
+    display: none;
+  }
+}
+
+.overlay-right {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 25%;
+  height: 100vh;
+  background: linear-gradient(
+    to left,
+    rgba(8, 8, 8, 1) 0%,
+    rgba(8, 8, 8, 0.8) 25%,
+    rgba(8, 8, 8, 0.5) 50%,
+    rgba(8, 8, 8, 0.2) 75%,
+    rgba(8, 8, 8, 0) 100%
+  );
+  pointer-events: none;
+  z-index: 999;
+  filter: blur(0.5px);
+}

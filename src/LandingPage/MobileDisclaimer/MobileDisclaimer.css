@@ -1,0 +1,125 @@
+.mobile-disclaimer {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(8, 8, 8, 0.85);
+  backdrop-filter: blur(12px);
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.mobile-disclaimer-card {
+  background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-card-hover) 100%);
+  border: 1px solid var(--border-bright);
+  border-radius: 1.25rem;
+  padding: 2.5rem 2rem;
+  max-width: 360px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow:
+    0 0 0 1px rgba(59, 130, 246, 0.08),
+    0 0 40px rgba(59, 130, 246, 0.12),
+    0 24px 48px rgba(0, 0, 0, 0.6);
+}
+
+.mobile-disclaimer-icon {
+  width: 52px;
+  height: 52px;
+  color: var(--accent);
+  margin-bottom: 1.25rem;
+  opacity: 0.9;
+}
+
+.mobile-disclaimer-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.mobile-disclaimer-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 0.75rem;
+  text-shadow: 0 0 16px rgba(59, 130, 246, 0.3);
+}
+
+.mobile-disclaimer-text {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin: 0 0 2rem;
+}
+
+.mobile-disclaimer-button {
+  padding: 0.75rem 2rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(59, 130, 246, 0.35);
+  background: linear-gradient(180deg, rgba(59, 130, 246, 0.55) 0%, rgba(37, 99, 235, 0.45) 100%);
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.08) inset,
+    0 -1px 0 rgba(0, 0, 0, 0.3) inset,
+    0 4px 12px rgba(59, 130, 246, 0.2);
+}
+
+.mobile-disclaimer-button:hover {
+  background: linear-gradient(180deg, rgba(59, 130, 246, 0.7) 0%, rgba(37, 99, 235, 0.6) 100%);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.1) inset,
+    0 -1px 0 rgba(0, 0, 0, 0.3) inset,
+    0 4px 16px rgba(59, 130, 246, 0.35);
+}
+
+@media (max-width: 768px) {
+  .mobile-disclaimer {
+    display: flex;
+  }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .mobile-disclaimer {
+    display: flex;
+  }
+
+  .mobile-disclaimer-card {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding: 1.25rem 1.5rem;
+    text-align: left;
+    align-items: center;
+    max-width: 520px;
+  }
+
+  .mobile-disclaimer-icon {
+    width: 36px;
+    height: 36px;
+    margin-bottom: 0;
+    flex-shrink: 0;
+  }
+
+  .mobile-disclaimer-title {
+    font-size: 1.1rem;
+    margin: 0;
+    flex: 1;
+  }
+
+  .mobile-disclaimer-text {
+    font-size: 0.85rem;
+    margin: 0;
+    width: 100%;
+  }
+
+  .mobile-disclaimer-button {
+    width: 100%;
+  }
+}

@@ -1,0 +1,20 @@
+.footer {
+  background: var(--bg-deepest);
+  border-top: 1px solid var(--border);
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  text-align: center;
+}
+
+.footer-text {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
