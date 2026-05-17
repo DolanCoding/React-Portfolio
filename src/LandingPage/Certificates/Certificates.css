@@ -124,7 +124,7 @@
   grid-column: 2;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: auto auto 1fr auto;
+  grid-template-rows: auto auto 1fr;
   gap: 0.75rem;
   min-height: 0;
 }
@@ -285,7 +285,9 @@
   color: var(--accent);
   text-decoration: none;
   cursor: pointer;
-  transition: color 0.2s, opacity 0.2s;
+  transition:
+    color 0.2s,
+    opacity 0.2s;
 }
 
 .cert-verify-link:hover {
