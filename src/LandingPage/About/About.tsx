@@ -7,7 +7,7 @@ import "./About.css";
 const customEase = cubicBezier(0.22, 1, 0.36, 1);
 
 const cardVariants = {
-  offscreen: (index: number) => ({
+  offscreen: () => ({
     opacity: 0,
     y: 40,
     scale: 0.95,

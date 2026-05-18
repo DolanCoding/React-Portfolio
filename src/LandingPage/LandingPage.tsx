@@ -30,7 +30,7 @@ export default function LandingPage() {
 
     let currentIndex = 0
     let locked = false
-    let unlockTimeoutId: NodeJS.Timeout | null = null
+    let unlockTimeoutId: number | null = null
 
     const goTo = (index: number) => {
       const callTime = Date.now()
