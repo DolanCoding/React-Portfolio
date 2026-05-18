@@ -1,10 +1,12 @@
 .skills {
   height: calc(100vh - 75px);
   display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
   align-items: center;
-  justify-content: center;
   position: relative;
   scroll-margin-top: 75px;
+  padding-top: 3rem;
 }
 
 /* Central blue spotlight */
@@ -39,29 +41,68 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  flex: 1;
   position: relative;
   z-index: 1;
 }
 
 .skills-heading {
   font-size: clamp(2.5rem, 5vw, 4rem);
-  color: var(--text-primary);
   text-align: center;
   flex-shrink: 0;
+  margin: 0;
+  background: linear-gradient(135deg, #f0f0f6 0%, #60a5fa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.4)) drop-shadow(0 0 16px rgba(59, 130, 246, 0.2));
+  color: var(--text-primary);
   text-shadow:
     0 0 8px rgba(59, 130, 246, 0.4),
-    0 0 16px rgba(59, 130, 246, 0.2),
-    0 4px 12px rgba(0, 0, 0, 1),
-    0 8px 20px rgba(0, 0, 0, 0.9),
-    -4px -4px 12px rgba(0, 0, 0, 0.9),
-    4px 4px 12px rgba(0, 0, 0, 0.9);
+    0 0 16px rgba(59, 130, 246, 0.2);
+  letter-spacing: -0.02em;
 }
 
 .skills-mindmap {
   width: 100%;
   max-width: 1000px;
-  background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.05) 0%, transparent 100%);
+  height: auto;
+  position: relative;
+  flex-shrink: 0;
+}
+
+/* Central spotlight effect */
+.skills-mindmap::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(59, 130, 246, 0.15) 0%,
+    rgba(59, 130, 246, 0.06) 25%,
+    transparent 65%
+  );
   border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Atmospheric halo glow */
+.skills-mindmap::after {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(59, 130, 246, 0.08) 0%,
+    rgba(59, 130, 246, 0.02) 40%,
+    transparent 100%
+  );
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: -1;
+  filter: blur(8px);
 }
 
 .mindmap-svg {
@@ -83,11 +124,13 @@
   transition:
     opacity 0.25s ease,
     transform 0.25s ease;
+  filter: drop-shadow(0 0 0px rgba(59, 130, 246, 0));
 }
 
 .mindmap-svg .anim-spoke {
   opacity: 0;
   transition: opacity 0.25s ease;
+  stroke-width: 2;
 }
 
 /* Animated: each element transitions in with its own delay */
@@ -95,29 +138,38 @@
   opacity: 1;
   transform: scale(1);
   transition:
-    opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1) var(--delay, 0ms),
-    transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) var(--delay, 0ms);
+    opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1) var(--delay, 0ms),
+    transform 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) var(--delay, 0ms),
+    filter 0.8s ease var(--delay, 0ms);
+  filter: drop-shadow(0 0 12px rgba(59, 130, 246, 0.35));
 }
 
 .mindmap-svg.animated .anim-spoke {
-  opacity: 0.6;
-  transition: opacity 0.45s ease var(--delay, 0ms);
+  opacity: 0.65;
+  transition:
+    opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1) var(--delay, 0ms),
+    stroke-width 0.4s ease var(--delay, 0ms);
+  stroke-width: 2.5;
 }
 
 .mindmap-svg.animated .anim-cat {
   opacity: 1;
   transform: scale(1);
   transition:
-    opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1) var(--delay, 0ms),
-    transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) var(--delay, 0ms);
+    opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1) var(--delay, 0ms),
+    transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) var(--delay, 0ms),
+    filter 0.65s ease var(--delay, 0ms);
+  filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.25));
 }
 
 .mindmap-svg.animated .anim-skill-group {
   opacity: 1;
   transform: scale(1);
   transition:
-    opacity 0.4s ease var(--delay, 0ms),
-    transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) var(--delay, 0ms);
+    opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1) var(--delay, 0ms),
+    transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) var(--delay, 0ms),
+    filter 0.6s ease var(--delay, 0ms);
+  filter: drop-shadow(0 0 6px rgba(59, 130, 246, 0.2));
 }
 
 /* ── Mobile entrance animations ── */

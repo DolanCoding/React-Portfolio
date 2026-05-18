@@ -1,0 +1,40 @@
+{
+  "env": {
+    "MAX_THINKING_TOKENS": "10000",
+    "CLAUDE_CODE_SUBAGENT_MODEL": "claude-haiku-4-5-20251001",
+    "DISABLE_NON_ESSENTIAL_MODEL_CALLS": "1"
+  },
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/sasch/.claude/skills/**)",
+      "Read(//c/Users/sasch/.claude/plugins/**)",
+      "Read(//c/Users/sasch/.claude/**)",
+      "Skill(code-token-efficiency)",
+      "Skill(code-token-efficiency:*)",
+      "Bash(npm run *)",
+      "Bash(npm install)",
+      "Bash(git status)",
+      "Bash(git diff)",
+      "Bash(git log)",
+      "Bash(git add)",
+      "Bash(git commit)",
+      "Bash(claude plugin *)",
+      "Skill(frontend-design)",
+      "Skill(frontend-design:*)",
+      "mcp__playwright__browser_navigate",
+      "mcp__playwright__browser_evaluate",
+      "mcp__playwright__browser_take_screenshot",
+      "mcp__playwright__browser_hover",
+      "mcp__playwright__browser_console_messages",
+      "mcp__playwright__browser_resize",
+      "mcp__playwright__browser_close",
+      "mcp__playwright__browser_press_key",
+      "mcp__playwright__browser_wait_for",
+      "mcp__playwright__browser_run_code_unsafe",
+      "mcp__playwright__browser_click"
+    ],
+    "additionalDirectories": [
+      "C:\\Users\\sasch\\.claude"
+    ]
+  }
+}

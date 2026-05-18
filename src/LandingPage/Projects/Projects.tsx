@@ -5,7 +5,7 @@ import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons
 import "./Projects.css";
 
 const VP = { once: false, amount: 0.05 };
-const ease = [0.22, 1, 0.36, 1] as const;
+const ease = [0.34, 1.56, 0.64, 1] as const;
 
 interface ProjectLink {
   label: string;
@@ -162,10 +162,10 @@ export default function Projects() {
     <section className="projects" id="projects">
       <motion.h2
         className="projects-heading"
-        initial={{ opacity: 0, y: 16 }}
+        initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={VP}
-        transition={{ duration: 0.5, ease }}
+        transition={{ duration: 0.8, ease }}
       >
         Featured Projects
       </motion.h2>
@@ -175,10 +175,11 @@ export default function Projects() {
           {/* Main thumbnail — col 1+2, row 1 */}
           <motion.div
             className="project-thumbnail-panel"
-            initial={{ opacity: 0, scale: 0.97 }}
-            whileInView={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            whileInView={{ opacity: 1, scale: 1, y: 0 }}
+            whileHover={{ y: -4, scale: 1.01 }}
             viewport={VP}
-            transition={{ duration: 0.55, delay: 0.15, ease }}
+            transition={{ duration: 0.65, delay: 0.15, ease }}
           >
             <Thumbnail src={project.screenshots[selectedThumb]} label={project.title} />
           </motion.div>
@@ -186,10 +187,11 @@ export default function Projects() {
           {/* Gallery — col 3, rows 1-4 (desktop) or col 1, row 2 (mobile) */}
           <motion.div
             className="project-gallery-panel"
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, x: 20, scale: 0.95 }}
+            whileInView={{ opacity: 1, x: 0, scale: 1 }}
+            whileHover={{ scale: 1.01 }}
             viewport={VP}
-            transition={{ duration: 0.5, delay: 0.2, ease }}
+            transition={{ duration: 0.6, delay: 0.2, ease }}
           >
             {/* Desktop: vertical thumbnails */}
             <div className="gallery-desktop">
@@ -267,10 +269,11 @@ export default function Projects() {
           {/* Project name — col 1, row 2 */}
           <motion.div
             className="project-name-panel"
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 16, scale: 0.98 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            whileHover={{ y: -4, scale: 1.01 }}
             viewport={VP}
-            transition={{ duration: 0.5, delay: 0.28, ease }}
+            transition={{ duration: 0.55, delay: 0.25, ease }}
           >
             <div className="project-panel-label">Project</div>
             <div className="project-name-value">{project.title}</div>
@@ -279,10 +282,11 @@ export default function Projects() {
           {/* Duration — col 2, row 2 */}
           <motion.div
             className="project-duration-panel"
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 16, scale: 0.98 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            whileHover={{ y: -4, scale: 1.01 }}
             viewport={VP}
-            transition={{ duration: 0.5, delay: 0.33, ease }}
+            transition={{ duration: 0.55, delay: 0.3, ease }}
           >
             <div className="project-panel-label">Duration</div>
             <div className="project-duration-value">{project.duration}</div>
@@ -291,10 +295,11 @@ export default function Projects() {
           {/* Description — col 1+2, row 3 */}
           <motion.div
             className="project-description-panel"
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 16, scale: 0.98 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            whileHover={{ y: -4, scale: 1.01 }}
             viewport={VP}
-            transition={{ duration: 0.5, delay: 0.38, ease }}
+            transition={{ duration: 0.55, delay: 0.35, ease }}
           >
             <div className="project-panel-label">Info</div>
             <p className="project-panel-description">{project.description}</p>
@@ -303,10 +308,11 @@ export default function Projects() {
           {/* Tech stack — col 2, row 4 */}
           <motion.div
             className="project-tech-panel"
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 16, scale: 0.98 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            whileHover={{ y: -4, scale: 1.01 }}
             viewport={VP}
-            transition={{ duration: 0.5, delay: 0.43, ease }}
+            transition={{ duration: 0.55, delay: 0.4, ease }}
           >
             <div className="project-panel-label">Tech Stack</div>
             <div className="project-tech-list">
@@ -321,10 +327,11 @@ export default function Projects() {
           {/* Links — col 1, row 4 */}
           <motion.div
             className="project-links-panel"
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 16, scale: 0.98 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            whileHover={{ y: -4, scale: 1.01 }}
             viewport={VP}
-            transition={{ duration: 0.5, delay: 0.43, ease }}
+            transition={{ duration: 0.55, delay: 0.4, ease }}
           >
             <div className="project-panel-label">Links</div>
             <div className="project-links-list">
@@ -348,10 +355,10 @@ export default function Projects() {
       {/* Bottom strip — infinite carousel */}
       <motion.div
         className="projects-strip"
-        initial={{ opacity: 0, y: 12 }}
-        whileInView={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0, y: 16, scale: 0.98 }}
+        whileInView={{ opacity: 1, y: 0, scale: 1 }}
         viewport={VP}
-        transition={{ duration: 0.5, delay: 0.5, ease }}
+        transition={{ duration: 0.6, delay: 0.45, ease }}
       >
         <button
           className="project-nav-btn project-strip-nav-left"

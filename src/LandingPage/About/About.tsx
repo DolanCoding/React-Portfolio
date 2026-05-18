@@ -1,21 +1,70 @@
-import { motion } from "framer-motion";
+import { motion, cubicBezier } from "framer-motion";
+import { useInView } from "framer-motion";
+import { useRef } from "react";
 import WorkflowDiagram from "./WorkflowDiagram";
 import "./About.css";
 
+const customEase = cubicBezier(0.22, 1, 0.36, 1);
+
+const cardVariants = {
+  offscreen: (index: number) => ({
+    opacity: 0,
+    y: 40,
+    scale: 0.95,
+    filter: "blur(4px)",
+  }),
+  onscreen: (index: number) => ({
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    filter: "blur(0px)",
+    transition: {
+      duration: 0.8,
+      delay: index * 0.08,
+      ease: customEase,
+    },
+  }),
+};
+
+const headingVariants = {
+  offscreen: { opacity: 0, y: 20, filter: "blur(2px)" },
+  onscreen: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: {
+      duration: 1,
+      ease: customEase,
+    },
+  },
+};
+
 export default function About() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: false, margin: "-100px" });
+
   return (
-    <section className="about-wrapper" id="about">
+    <section className="about-wrapper" id="about" ref={ref}>
       <div className="about">
         <div className="about-container">
-          <h2 className="about-heading">Who I Am</h2>
+          <motion.h2
+            className="about-heading"
+            initial="offscreen"
+            animate={isInView ? "onscreen" : "offscreen"}
+            variants={headingVariants}
+          >
+            Who I Am
+          </motion.h2>
           <div className="about-bento">
             {/* About text — 2x1 */}
             <motion.div
               className="bento-card bento-about"
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-              viewport={{ once: false }}
+              custom={0}
+              initial="offscreen"
+              whileInView="onscreen"
+              variants={cardVariants}
+              viewport={{ once: false, margin: "-50px" }}
+              whileHover={{ y: -8 }}
             >
               <div className="bento-card-label">About Me</div>
               <p className="bento-about-text">
@@ -30,27 +79,34 @@ export default function About() {
             {/* Me + Profile — 1x1 */}
             <motion.div
               className="bento-card bento-location-profile"
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-              viewport={{ once: false }}
+              custom={1}
+              initial="offscreen"
+              whileInView="onscreen"
+              variants={cardVariants}
+              viewport={{ once: false, margin: "-50px" }}
+              whileHover={{ y: -8, scale: 1.02 }}
             >
               <div>
                 <div className="bento-card-label">Me</div>
                 <div className="bento-info-value">Sascha Fischer</div>
               </div>
-              <div className="profile-image-placeholder">
-                <img className="profile-image" src="/profile.png" alt="Sascha Fischer" loading="lazy" />
-              </div>
+              <img
+                className="profile-image"
+                src="/profile.png"
+                alt="Sascha Fischer"
+                loading="lazy"
+              />
             </motion.div>
 
             {/* Philosophy — 2x1 */}
             <motion.div
               className="bento-card bento-philosophy"
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-              viewport={{ once: false }}
+              custom={2}
+              initial="offscreen"
+              whileInView="onscreen"
+              variants={cardVariants}
+              viewport={{ once: false, margin: "-50px" }}
+              whileHover={{ y: -8 }}
             >
               <div className="bento-card-label">Philosophy</div>
               <p className="bento-philosophy-text">
@@ -65,10 +121,12 @@ export default function About() {
             {/* Years of Experience — 1x1 */}
             <motion.div
               className="bento-card bento-stat"
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
-              viewport={{ once: false }}
+              custom={3}
+              initial="offscreen"
+              whileInView="onscreen"
+              variants={cardVariants}
+              viewport={{ once: false, margin: "-50px" }}
+              whileHover={{ y: -8 }}
             >
               <div className="bento-stat-number">3+</div>
               <div className="bento-stat-label">Years Experience</div>
@@ -77,10 +135,12 @@ export default function About() {
             {/* Availability — 1x1 */}
             <motion.div
               className="bento-card bento-status"
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              viewport={{ once: false }}
+              custom={4}
+              initial="offscreen"
+              whileInView="onscreen"
+              variants={cardVariants}
+              viewport={{ once: false, margin: "-50px" }}
+              whileHover={{ y: -8 }}
             >
               <div className="bento-status-indicator">
                 <span className="bento-status-dot"></span>
@@ -94,10 +154,12 @@ export default function About() {
             {/* Location — 1x1 */}
             <motion.div
               className="bento-card bento-location-card"
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
-              viewport={{ once: false }}
+              custom={5}
+              initial="offscreen"
+              whileInView="onscreen"
+              variants={cardVariants}
+              viewport={{ once: false, margin: "-50px" }}
+              whileHover={{ y: -8, scale: 1.02 }}
             >
               <div className="location-content">
                 <div className="bento-card-label">Location</div>

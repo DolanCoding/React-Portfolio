@@ -18,19 +18,25 @@ export default function LandingPage() {
 
     const isPortraitMobile = window.matchMedia('(max-width: 768px)').matches
     const isLandscapeMobile = window.matchMedia('(max-height: 500px) and (orientation: landscape)').matches
-    if (isPortraitMobile || isLandscapeMobile) return
+    if (isPortraitMobile || isLandscapeMobile) {
+      console.log('[INIT] Mobile viewport detected, wheel snap disabled')
+      return
+    }
 
+    console.log('[INIT] Initializing scroll snap - locked reset to false')
     const sections = Array.from(
       document.querySelectorAll<HTMLElement>('.landing-page > section')
     )
 
     let currentIndex = 0
     let locked = false
+    let unlockTimeoutId: NodeJS.Timeout | null = null
 
     const goTo = (index: number) => {
-      if (locked) return
+      const callTime = Date.now()
       if (index < 0 || index >= sections.length) return
 
+      console.log(`[GOTO ${callTime}] Starting snap to section ${index}`)
       currentIndex = index
       locked = true
 
@@ -39,66 +45,67 @@ export default function LandingPage() {
       if (id) history.replaceState(null, '', `#${id}`)
 
       const target = Math.max(0, section.getBoundingClientRect().top + window.scrollY - NAV_HEIGHT)
+      const start = window.scrollY
+      const distance = target - start
+      const duration = 1500 // 1.5 seconds for smooth, slower scroll
 
-      window.scrollTo({ top: target, behavior: 'smooth' })
+      console.log(`[GOTO ${callTime}] Animation start: ${start}, target: ${target}, distance: ${distance}`)
+      let startTime: number | null = null
 
-      const fallback = setTimeout(() => { locked = false }, 2200)
-      let stableCount = 0
-
-      const poll = () => {
-        if (Math.abs(window.scrollY - target) < 2) {
-          stableCount++
-          if (stableCount >= 4) {
-            clearTimeout(fallback)
-            locked = false
-            return
-          }
-        } else {
-          stableCount = 0
-        }
-        requestAnimationFrame(poll)
+      const easeInOutCubic = (t: number) => {
+        return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2
       }
-      requestAnimationFrame(poll)
+
+      const animate = (currentTime: number) => {
+        if (startTime === null) {
+          startTime = currentTime
+          const animStartTime = Date.now()
+          console.log(`[ANIMATE ${animStartTime}] RAF triggered, delay from goTo: ${animStartTime - callTime}ms`)
+        }
+        const elapsed = currentTime - startTime
+        const progress = Math.min(elapsed / duration, 1)
+        const easeProgress = easeInOutCubic(progress)
+
+        const newScrollY = start + distance * easeProgress
+        window.scrollTo(0, newScrollY)
+
+        if (progress < 1) {
+          requestAnimationFrame(animate)
+        } else {
+          const completeTime = Date.now()
+          console.log(`[COMPLETE ${completeTime}] Animation done, duration: ${completeTime - callTime}ms`)
+          // Keep lock for 200ms after animation completes
+          if (unlockTimeoutId) clearTimeout(unlockTimeoutId)
+          unlockTimeoutId = setTimeout(() => {
+            locked = false
+            unlockTimeoutId = null
+            console.log(`[UNLOCK ${Date.now()}] Lock released after 200ms delay from animation completion`)
+          }, 200)
+        }
+      }
+
+      requestAnimationFrame(animate)
     }
 
     const handleScroll = () => {
-      if (locked) return
-
+      // Track which section has the most visible area
       const vh = window.innerHeight
-
       let maxVisiblePx = 0
-      sections.forEach((section, i) => {
-        const rect = section.getBoundingClientRect()
-        const visiblePx = Math.max(0, Math.min(rect.bottom, vh) - Math.max(rect.top, NAV_HEIGHT))
-        if (visiblePx > maxVisiblePx) {
-          maxVisiblePx = visiblePx
-          currentIndex = i
-        }
-      })
-
-      let bestIndex = currentIndex
-      let bestVisibility = 0
+      let mostVisibleIndex = currentIndex
 
       sections.forEach((section, i) => {
-        if (i === currentIndex) return
-
         const rect = section.getBoundingClientRect()
         const visibleTop = Math.max(rect.top, NAV_HEIGHT)
         const visibleBottom = Math.min(rect.bottom, vh)
         const visiblePx = Math.max(0, visibleBottom - visibleTop)
 
-        // On non-desktop (width <= 1024px), require 10% of viewport visible; on desktop, require 1px
-        const snapThreshold = window.innerWidth <= 1024 ? vh * 0.10 : 1
-        if (visiblePx < snapThreshold) return
-        if (visiblePx <= bestVisibility) return
-
-        bestVisibility = visiblePx
-        bestIndex = i
+        if (visiblePx > maxVisiblePx) {
+          maxVisiblePx = visiblePx
+          mostVisibleIndex = i
+        }
       })
 
-      if (bestIndex !== currentIndex) {
-        goTo(bestIndex)
-      }
+      currentIndex = mostVisibleIndex
     }
 
     const handleNavGoto = (e: Event) => {
@@ -113,11 +120,45 @@ export default function LandingPage() {
       }
     }
 
+    const handleWheel = (e: WheelEvent) => {
+      // Only on desktop
+      if (window.innerWidth <= 1024) return
+
+      const wheelTime = Date.now()
+
+      // Block scrolling while snap is in progress - lock immediately
+      if (locked) {
+        console.log(`[WHEEL ${wheelTime}] BLOCKED - locked`)
+        e.preventDefault()
+        return
+      }
+
+      // Lock immediately before any processing
+      locked = true
+      e.preventDefault()
+
+      const direction = e.deltaY > 0 ? 1 : -1
+      const nextIndex = currentIndex + direction
+
+      console.log(`[WHEEL ${wheelTime}] deltaY: ${e.deltaY}, calling goTo, nextIndex: ${nextIndex}`)
+      if (nextIndex >= 0 && nextIndex < sections.length) {
+        goTo(nextIndex)
+      } else {
+        // Unlock if index is out of bounds
+        locked = false
+      }
+    }
+
+    console.log('[INIT] Attaching event listeners')
     window.addEventListener('scroll', handleScroll, { passive: true })
     window.addEventListener('nav-goto', handleNavGoto)
+    window.addEventListener('wheel', handleWheel, { passive: false })
+    console.log('[INIT] Event listeners attached, wheel snap ready')
     return () => {
       window.removeEventListener('scroll', handleScroll)
       window.removeEventListener('nav-goto', handleNavGoto)
+      window.removeEventListener('wheel', handleWheel)
+      if (unlockTimeoutId) clearTimeout(unlockTimeoutId)
     }
   }, [])
 

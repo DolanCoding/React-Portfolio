@@ -1,4 +1,15 @@
 import { useState, useRef, useEffect, type CSSProperties } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faReact,
+  faAngular,
+  faJs,
+  faPython,
+  faNode,
+  faHtml5,
+  faCss3Alt,
+} from "@fortawesome/free-brands-svg-icons";
+import { faDatabase, faCode, faCog } from "@fortawesome/free-solid-svg-icons";
 import "./Skills.css";
 
 const CX = 400;
@@ -39,6 +50,24 @@ const pt = (r: number, deg: number) => ({
   x: CX + r * Math.cos(toRad(deg)),
   y: CY + r * Math.sin(toRad(deg)),
 });
+
+// Map skills to their corresponding FontAwesome icons
+const skillIcons: Record<string, any> = {
+  React: faReact,
+  Angular: faAngular,
+  TypeScript: faCode,
+  "Next.js": faReact,
+  JavaScript: faJs,
+  "HTML / CSS": faHtml5,
+  Tailwind: faCss3Alt,
+  "Node.js": faNode,
+  Express: faCog,
+  Python: faPython,
+  "REST APIs": faCode,
+  PostgreSQL: faDatabase,
+  MongoDB: faDatabase,
+  SQL: faDatabase,
+};
 
 export default function Skills() {
   const [hoveredSkill, setHoveredSkill] = useState<string | null>(null);
@@ -172,6 +201,68 @@ export default function Skills() {
               <filter id="pill-glow" x="-30%" y="-60%" width="160%" height="220%">
                 <feDropShadow dx="0" dy="0" stdDeviation="5" floodOpacity="0.6" />
               </filter>
+              {/* Enhanced glow filters for entrance animations */}
+              <filter id="hub-glow-entrance" x="-60%" y="-60%" width="220%" height="220%">
+                <feDropShadow
+                  dx="0"
+                  dy="0"
+                  stdDeviation="6"
+                  floodColor="var(--accent)"
+                  floodOpacity="0.4"
+                />
+              </filter>
+              <filter id="cat-glow-entrance" x="-50%" y="-50%" width="200%" height="200%">
+                <feDropShadow
+                  dx="0"
+                  dy="0"
+                  stdDeviation="4"
+                  floodColor="var(--accent)"
+                  floodOpacity="0.3"
+                />
+              </filter>
+              {/* Background glow behind mindmap */}
+              <radialGradient id="mindmap-bg-glow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stopColor="var(--accent)" stopOpacity="0.04" />
+                <stop offset="70%" stopColor="var(--accent)" stopOpacity="0.01" />
+                <stop offset="100%" stopColor="var(--accent)" stopOpacity="0" />
+              </radialGradient>
+              {/* 3D effect gradients for circles - sphere with top-left lighting */}
+              <radialGradient id="sphere-3d-hub" cx="30%" cy="30%" r="55%">
+                <stop offset="0%" stopColor="rgba(255,255,255,0.15)" />
+                <stop offset="35%" stopColor="rgba(255,255,255,0.02)" />
+                <stop offset="70%" stopColor="rgba(0,0,0,0.05)" />
+                <stop offset="100%" stopColor="rgba(0,0,0,0.4)" />
+              </radialGradient>
+              {SECTIONS.map((section) => (
+                <radialGradient
+                  key={`sphere-3d-${section.label}`}
+                  id={`sphere-3d-${section.label}`}
+                  cx="30%"
+                  cy="30%"
+                  r="55%"
+                >
+                  <stop offset="0%" stopColor="rgba(255,255,255,0.22)" />
+                  <stop offset="35%" stopColor="rgba(255,255,255,0.06)" />
+                  <stop offset="70%" stopColor="rgba(0,0,0,0.04)" />
+                  <stop offset="100%" stopColor="rgba(0,0,0,0.35)" />
+                </radialGradient>
+              ))}
+              {/* Refined shadow filter for pills */}
+              <filter id="pill-shadow-3d" x="-40%" y="-60%" width="180%" height="220%">
+                <feDropShadow dx="0" dy="3" stdDeviation="2" floodOpacity="0.7" floodColor="#000" />
+                <feDropShadow dx="0" dy="6" stdDeviation="4" floodOpacity="0.35" floodColor="#000" />
+                <feDropShadow dx="0" dy="10" stdDeviation="8" floodOpacity="0.12" floodColor="#000" />
+              </filter>
+              {/* Lightning/glow emission filter for pills on hover */}
+              <filter id="pill-emit" x="-50%" y="-80%" width="200%" height="260%">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="0.8" result="coloredBlur" />
+                <feDropShadow dx="0" dy="0" stdDeviation="5" floodOpacity="0.6" />
+                <feDropShadow dx="0" dy="1" stdDeviation="10" floodOpacity="0.35" />
+                <feMerge>
+                  <feMergeNode in="coloredBlur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
             </defs>
 
             {SECTIONS.map((section, si) => {
@@ -189,7 +280,8 @@ export default function Skills() {
                     y2={cat.y}
                     stroke={section.color}
                     strokeWidth={2}
-                    opacity={0.6}
+                    opacity={0.65}
+                    strokeLinecap="round"
                   />
 
                   {/* Category → skill lines + skill pills */}
@@ -239,9 +331,12 @@ export default function Skills() {
                             height={H}
                             rx={H / 2}
                             fill="var(--bg-card)"
-                            filter="url(#pill-shadow)"
+                            filter={isHovered ? "url(#pill-shadow-3d)" : "url(#pill-shadow)"}
+                            style={{
+                              transition: "filter 0.35s ease, fill 0.3s ease",
+                            }}
                           />
-                          {/* Gradient overlay */}
+                          {/* Gradient overlay with 3D depth */}
                           <rect
                             x={s.x - W / 2}
                             y={s.y - H / 2}
@@ -249,23 +344,60 @@ export default function Skills() {
                             height={H}
                             rx={H / 2}
                             fill={`url(#grad-${section.label})`}
-                            filter={isHovered ? `url(#pill-glow)` : undefined}
+                            filter={isHovered ? `url(#pill-emit)` : undefined}
                             stroke={section.color}
-                            strokeWidth={isHovered ? 1.5 : 1}
-                            strokeOpacity={isHovered ? 1 : 0.45}
+                            strokeWidth={isHovered ? 2 : 1.25}
+                            strokeOpacity={isHovered ? 1 : 0.55}
+                            style={{
+                              transition: "stroke-width 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), stroke-opacity 0.35s ease, filter 0.35s ease",
+                            }}
                           />
-                          <text
-                            x={s.x}
-                            y={s.y}
-                            textAnchor="middle"
-                            dominantBaseline="middle"
-                            fontSize={10}
-                            fill={isHovered ? section.color : "var(--text-secondary)"}
-                            fontFamily="var(--font-sans)"
-                            fontWeight={isHovered ? "600" : "400"}
+                          {/* Top highlight for 3D depth */}
+                          <ellipse
+                            cx={s.x}
+                            cy={s.y - H / 3}
+                            rx={W / 2.5}
+                            ry={H / 4.5}
+                            fill="rgba(255,255,255,0.15)"
+                            pointerEvents="none"
+                            style={{
+                              transition: "fill 0.35s ease",
+                            }}
+                            opacity={isHovered ? 1 : 0.8}
+                          />
+                          {/* Icon and text centered in pill */}
+                          <foreignObject
+                            x={s.x - W / 2}
+                            y={s.y - H / 2}
+                            width={W}
+                            height={H}
+                            pointerEvents="none"
                           >
-                            {skill}
-                          </text>
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                gap: "4px",
+                                width: "100%",
+                                height: "100%",
+                                fontSize: "10px",
+                                color: isHovered ? section.color : "var(--text-secondary)",
+                                fontWeight: isHovered ? "600" : "400",
+                                fontFamily: "var(--font-sans)",
+                                transition: "color 0.35s ease, font-weight 0.35s ease",
+                              }}
+                            >
+                              <FontAwesomeIcon
+                                icon={skillIcons[skill] || faCode}
+                                style={{
+                                  fontSize: "11px",
+                                  color: "currentColor",
+                                }}
+                              />
+                              <span>{skill}</span>
+                            </div>
+                          </foreignObject>
                         </g>
                       </g>
                     );
@@ -280,16 +412,28 @@ export default function Skills() {
                       cx={cat.x}
                       cy={cat.y}
                       r={36}
-                      fill="var(--bg-card)"
-                      filter="url(#circle-shadow)"
+                      fill={`url(#circle-grad-${section.label})`}
+                      stroke={section.color}
+                      strokeWidth={2}
+                      style={{
+                        transition: "stroke-width 0.3s ease",
+                      }}
                     />
                     <circle
                       cx={cat.x}
                       cy={cat.y}
+                      r={36.5}
+                      fill="var(--bg-card)"
+                      pointerEvents="none"
+                    />
+                    {/* 3D sphere effect overlay */}
+                    <circle
+                      cx={cat.x}
+                      cy={cat.y}
                       r={36}
-                      fill={`url(#circle-grad-${section.label})`}
-                      stroke={section.color}
-                      strokeWidth={1.5}
+                      fill={`url(#sphere-3d-${section.label})`}
+                      pointerEvents="none"
+                      opacity={0.8}
                     />
                     <text
                       x={cat.x}
@@ -308,16 +452,34 @@ export default function Skills() {
               );
             })}
 
+            {/* Background glow behind entire mindmap */}
+            <circle
+              cx={CX}
+              cy={CY}
+              r={380}
+              fill="url(#mindmap-bg-glow)"
+              pointerEvents="none"
+            />
+
             {/* Center hub */}
             <g className="anim-hub">
-              <circle cx={CX} cy={CY} r={50} fill="var(--bg-card)" filter="url(#circle-shadow)" />
               <circle
                 cx={CX}
                 cy={CY}
                 r={50}
                 fill="url(#hub-grad)"
                 stroke="var(--border-bright)"
-                strokeWidth={1.5}
+                strokeWidth={2}
+              />
+              <circle cx={CX} cy={CY} r={50.5} fill="var(--bg-card)" pointerEvents="none" />
+              {/* 3D sphere effect overlay */}
+              <circle
+                cx={CX}
+                cy={CY}
+                r={50}
+                fill="url(#sphere-3d-hub)"
+                pointerEvents="none"
+                opacity={0.9}
               />
               <text
                 x={CX}
