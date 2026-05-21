@@ -31,7 +31,11 @@
       "mcp__playwright__browser_press_key",
       "mcp__playwright__browser_wait_for",
       "mcp__playwright__browser_run_code_unsafe",
-      "mcp__playwright__browser_click"
+      "mcp__playwright__browser_click",
+      "Skill(update-config)",
+      "Skill(update-config:*)",
+      "WebFetch(domain:github.com)",
+      "PowerShell(git clone https://github.com/ARPeeketi/claude-resume-kit.git \"$env:USERPROFILE\\\\.claude\\\\skills\\\\claude-resume-kit\")"
     ],
     "additionalDirectories": [
       "C:\\Users\\sasch\\.claude"
